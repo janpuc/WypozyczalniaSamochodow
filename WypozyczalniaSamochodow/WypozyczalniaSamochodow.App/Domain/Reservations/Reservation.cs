@@ -48,22 +48,32 @@ internal sealed class Reservation
 
     public void Activate(int mileageBefore, IClock clock)
     {
-      throw new NotImplementedException();
+      Client.EnsureCanRent(clock);
+      Status = Status.Activate(mileageBefore);
     }
     public void Complete(int mileageAfter, string? note) => Status = Status.Complete(mileageAfter, note);
     public void Cancel()
     {
-      throw new NotImplementedException();
+        Status = Status.Cancel();
+        Vehicle.ReleaseReservation(Event);
     }
 
     public void Reschedule(DateRange newPeriod)
     {
-      throw new NotImplementedException();
+        if (newPeriod.To is null)
+            throw new DomainException("Rezerwacja musi mieć datę zakończenia.");
+        Vehicle.RescheduleReservation(Event, newPeriod);
     }
 
     public void SwapVehicle(Vehicle newVehicle, IClock clock)
     {
-      throw new NotImplementedException();
+        if (Status is not PendingReservation)
+            throw new DomainException("Pojazd można wymienić tylko dla rezerwacji oczekującej.");
+        if (!newVehicle.IsAvailableFor(Event.Period, clock))
+            throw new DomainException("Nowy pojazd nie jest dostępny w wybranym terminie.");
+        Vehicle.ReleaseReservation(Event);
+        Vehicle = newVehicle;
+        newVehicle.AddEvent(Event);
     }
 
     public bool BelongsTo(Client client) => ReferenceEquals(Client, client);
