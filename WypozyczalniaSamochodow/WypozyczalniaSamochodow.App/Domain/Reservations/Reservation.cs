@@ -1,6 +1,7 @@
 using WypozyczalniaSamochodow.App.Domain.Fleet;
 using WypozyczalniaSamochodow.App.Domain.Fleet.Events;
 using WypozyczalniaSamochodow.App.Domain.Shared;
+using WypozyczalniaSamochodow.App.Domain.Payments;
 using WypozyczalniaSamochodow.App.Domain.Users;
 
 namespace WypozyczalniaSamochodow.App.Domain.Reservations;
@@ -11,8 +12,9 @@ internal sealed class Reservation
     public Vehicle Vehicle { get; private set; }
     public ReservationEvent Event { get; private set; }
     public ReservationStatus Status { get; private set; }
+    public Payment Payment { get; private set; }
 
-    public Reservation(Client client, Vehicle vehicle, DateRange period, IClock clock)
+    public Reservation(Client client, Vehicle vehicle, DateRange period, Payment payment, IClock clock)
     {
         if (period.To is null)
             throw new DomainException("Rezerwacja musi mieć datę zakończenia.");
@@ -23,19 +25,21 @@ internal sealed class Reservation
         Client = client;
         Vehicle = vehicle;
         Event = vehicle.Reserve(period, clock);
+        Payment = payment;
         Status = new PendingReservation();
     }
 
-    private Reservation(Client client, Vehicle vehicle, ReservationEvent ev, ReservationStatus status)
+    private Reservation(Client client, Vehicle vehicle, ReservationEvent ev, Payment payment, ReservationStatus status)
     {
         Client = client;
         Vehicle = vehicle;
         Event = ev;
+        Payment = payment;
         Status = status;
     }
 
-    public static Reservation Rehydrate(Client client, Vehicle vehicle, ReservationEvent ev, ReservationStatus status) =>
-        new(client, vehicle, ev, status);
+    public static Reservation Rehydrate(Client client, Vehicle vehicle, ReservationEvent ev, Payment payment, ReservationStatus status) =>
+        new(client, vehicle, ev, payment, status);
 
     public bool CanActivate => Status.CanActivate;
     public bool CanComplete => Status.CanComplete;
