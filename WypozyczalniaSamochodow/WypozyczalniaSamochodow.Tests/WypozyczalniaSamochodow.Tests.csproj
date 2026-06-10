@@ -23,7 +23,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\OrlenSolutions.App\OrlenSolutions.App.csproj" />
+		<ProjectReference Include="..\WypozyczalniaSamochodow.App\WypozyczalniaSamochodow.App.csproj" />
 	</ItemGroup>
 
 </Project>
