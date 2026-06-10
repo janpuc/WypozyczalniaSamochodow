@@ -1,4 +1,4 @@
 <Solution>
-  <Project Path="WypożyczalniaSamochodów.Tests/WypozyczalniaSamochodow.Tests.csproj" />
-  <Project Path="WypożyczalniaSamochodów/WypozyczalniaSamochodow.App.csproj" />
+  <Project Path="WypozyczalniaSamochodow.App/WypozyczalniaSamochodow.App.csproj" />
+  <Project Path="WypozyczalniaSamochodow.Tests/WypozyczalniaSamochodow.Tests.csproj" />
 </Solution>
