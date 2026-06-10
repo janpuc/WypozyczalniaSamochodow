@@ -9,7 +9,10 @@ internal sealed record DrivingLicence
 
     public DrivingLicence(string number, DateOnly expiryDate)
     {
-
+        if (string.IsNullOrWhiteSpace(number))
+            throw new DomainException("Numer prawa jazdy nie może być pusty.");
+        Number = number;
+        ExpiryDate = expiryDate;
     }
 
     public bool IsValidOn(DateOnly date) => ExpiryDate >= date;
