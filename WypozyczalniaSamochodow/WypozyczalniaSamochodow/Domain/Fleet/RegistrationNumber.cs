@@ -1,6 +1,6 @@
-using OrlenSolutions.Domain.Shared;
+using WypozyczalniaSamochodow.App.Domain.Shared;
 
-namespace OrlenSolutions.Domain.Fleet;
+namespace WypozyczalniaSamochodow.App.Domain.Fleet;
 
 internal sealed record RegistrationNumber
 {
