@@ -1,6 +1,6 @@
-using OrlenSolutions.Domain.Shared;
+using WypozyczalniaSamochodow.App.Domain.Shared;
 
-namespace OrlenSolutions.Domain.Users;
+namespace WypozyczalniaSamochodow.App.Domain.Users;
 
 internal sealed class Password
 {
