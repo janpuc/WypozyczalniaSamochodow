@@ -1,4 +1,4 @@
-namespace OrlenSolutions.Domain.Users;
+namespace WypozyczalniaSamochodow.App.Domain.Users;
 
 internal interface IPasswordHasher
 {
