@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/WypożyczalniaSamochodów/.vs/WypożyczalniaSamochodów.slnx
+/WypożyczalniaSamochodów/WypożyczalniaSamochodów/obj
+/WypożyczalniaSamochodów/WypożyczalniaSamochodów.Tests/obj
