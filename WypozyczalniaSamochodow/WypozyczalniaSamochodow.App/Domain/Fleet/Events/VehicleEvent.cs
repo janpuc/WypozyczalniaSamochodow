@@ -8,8 +8,12 @@ internal abstract class VehicleEvent
     public DateRange Period { get; private set; }
     public string? Description { get; private set; }
 
-    protected VehicleEvent(DateRange period, string? description = null) { throw new NotImplementedException(); }
-
+    protected VehicleEvent(DateRange period, string? description = null)
+    {
+        Period = period;
+        Description = description;
+    }
+    
     public DateOnly FromDate => Period.From;
     public DateOnly? ToDate => Period.To;
     public DateOnly EffectiveTo => Period.EffectiveTo;
