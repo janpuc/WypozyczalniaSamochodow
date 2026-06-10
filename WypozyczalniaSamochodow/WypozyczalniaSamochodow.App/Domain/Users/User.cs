@@ -10,12 +10,18 @@ internal abstract class User
 
     protected User(string fullName, Email email, Password password)
     {
-
+        if (string.IsNullOrWhiteSpace(fullName))
+            throw new DomainException("Imię i nazwisko nie może być puste.");
+        FullName = fullName;
+        Email = email;
+        Password = password;
     }
 
     public void Rename(string fullName)
     {
-
+        if (string.IsNullOrWhiteSpace(fullName))
+            throw new DomainException("Imię i nazwisko nie może być puste.");
+        FullName = fullName;
     }
 
     public void ChangeEmail(Email email) => Email = email;
