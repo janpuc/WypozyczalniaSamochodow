@@ -7,11 +7,19 @@ internal sealed class BrokenDownEvent : VehicleEvent
 {
     public RepairEvent? LinkedRepair { get; private set; }
 
-    public BrokenDownEvent(DateRange period, string? description = null) : base(period, description) { throw new NotImplementedException(); }
+    public BrokenDownEvent(DateRange period, string? description = null) : base(period, description) { }
 
     public override string Describe() => "Niesprawny";
     public override T Accept<T>(IVehicleEventVisitor<T> visitor) => visitor.Visit(this);
 
-    internal RepairEvent RegisterRepair(DateRange repairPeriod, string? description = null) { throw new NotImplementedException(); }
+    internal RepairEvent RegisterRepair(DateRange repairPeriod, string? description = null) {
+        if (repairPeriod.From < Period.From)
+            throw new DomainException("Naprawa nie może zaczynać się przed awarią.");
+
+        var repair = new RepairEvent(repairPeriod, this, description);
+        LinkedRepair = repair;
+        ReplacePeriod(new DateRange(Period.From, repair.FromDate));
+        return repair;
+    }
 
 }
