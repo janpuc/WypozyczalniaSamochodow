@@ -2,6 +2,7 @@
 
 using WypozyczalniaSamochodow.App.Application.Auth;
 using WypozyczalniaSamochodow.App.Application.Repositories;
+using WypozyczalniaSamochodow.App.Application.Reservations;
 using WypozyczalniaSamochodow.App.Application.Users;
 using WypozyczalniaSamochodow.App.Domain.Fleet;
 using WypozyczalniaSamochodow.App.Domain.Insurance;
@@ -70,4 +71,12 @@ internal static class ScreenTestData
     IVehicleRepository vehicles, IReservationRepository reservations, IPasswordHasher? hasher = null)
     => Navigator(ui, prompts, new InMemoryClientRepository(), new InMemoryBackofficeRepository(),
         vehicles, reservations, hasher);
+    public static ReservationService Reservations(IReservationRepository reservations, IVehicleRepository vehicles)
+    => new(reservations, vehicles, Clock);
+
+    public static ReservationService Reservations(IVehicleRepository vehicles)
+        => new(new InMemoryReservationRepository(), vehicles, Clock);
+
+    public static ReservationService Reservations()
+        => new(new InMemoryReservationRepository(), new InMemoryVehicleRepository(), Clock);
 }

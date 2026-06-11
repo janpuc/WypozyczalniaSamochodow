@@ -8,7 +8,9 @@ using WypozyczalniaSamochodow.App.Presentation.Abstraction;
 using WypozyczalniaSamochodow.App.Presentation.Screens.Client;
 using WypozyczalniaSamochodow.App.Presentation.UIConfig;
 using WypozyczalniaSamochodow.Tests.TestSupport;
+
 using Xunit;
+
 namespace WypozyczalniaSamochodow.Tests.Presentation.Screens.Client;
 
 public sealed class ClientScreensTests
@@ -32,6 +34,34 @@ public sealed class ClientScreensTests
         client.Email.Value.Should().Be("jan.nowy@example.com");
         ui.Successes.Should().Contain(UiStrings.LicenceAdded);
         ui.Successes.Should().Contain(UiStrings.PersonalDataUpdated);
+    }
+
+    [Fact]
+    public void NewReservationFlowCanCreateAndClientReservationDetailsCanCancel()
+    {
+        var client = ScreenTestData.CreateClient();
+        var vehicle = ScreenTestData.CreateVehicle();
+        var flowUi = new ScriptedUiRenderer().EnqueueKeys(ConsoleKey.Enter);
+        var detailsUi = new ScriptedUiRenderer().EnqueueKeys(ConsoleKey.D, ConsoleKey.Escape).EnqueueConfirmations(true);
+        var prompts = new ScriptedPrompts()
+            .EnqueueDate(new DateOnly(2026, 6, 1), new DateOnly(2026, 6, 3))
+            .EnqueueChoice(UiStrings.PayCash)
+            .EnqueueConfirm(true);
+        var vehicles = new InMemoryVehicleRepository();
+        vehicles.Add(vehicle);
+        var reservations = new InMemoryReservationRepository();
+        var hasher = Substitute.For<IPasswordHasher>();
+
+        new NewReservationFlow(client, flowUi, prompts, ScreenTestData.Reservations(reservations, vehicles), ScreenTestData.Users(new InMemoryClientRepository(), new InMemoryBackofficeRepository(), reservations: reservations), ScreenTestData.Clock).Run();
+
+        flowUi.Successes.Should().Contain(UiStrings.ReservationCreated);
+
+        var cancelVehicle = ScreenTestData.CreateVehicle("Skoda", "Octavia");
+        var reservation = ScreenTestData.CreateReservation(client, cancelVehicle);
+        new ClientReservationDetailsScreen(reservation, detailsUi, ScreenTestData.Reservations()).Run();
+
+        reservation.Status.Should().BeOfType<CancelledReservation>();
+        detailsUi.Successes.Should().Contain(UiStrings.Cancelled);
     }
 
     [Fact]
@@ -172,6 +202,104 @@ public sealed class ClientScreensTests
         new ClientDashboardScreen(client, ui, prompts, reservations, ScreenTestData.Users(new InMemoryClientRepository(), new InMemoryBackofficeRepository(), reservations: reservations), ScreenTestData.Clock, ScreenTestData.Navigator(ui, prompts, vehicles, reservations, hasher)).Run();
 
         ui.Errors.Should().Contain("Podaj prawidłowy adres email.");
+    }
+
+    [Fact]
+    public void NewReservationFlowShowsDateValidationError()
+    {
+        var client = ScreenTestData.CreateClient();
+        var ui = new ScriptedUiRenderer();
+        var prompts = new ScriptedPrompts().EnqueueDate(new DateOnly(2026, 6, 3), new DateOnly(2026, 6, 1));
+        var vehicles = new InMemoryVehicleRepository();
+        var reservations = new InMemoryReservationRepository();
+
+        new NewReservationFlow(client, ui, prompts, ScreenTestData.Reservations(reservations, vehicles), ScreenTestData.Users(new InMemoryClientRepository(), new InMemoryBackofficeRepository(), reservations: reservations), ScreenTestData.Clock).Run();
+
+        ui.Errors.Should().Contain("Data zakończenia nie może być wcześniejsza niż data rozpoczęcia.");
+    }
+
+    [Fact]
+    public void NewReservationFlowCanAddLicenceAndCancelAtConfirmation()
+    {
+        var client = ScreenTestData.CreateClientWithoutLicence();
+        var vehicle = ScreenTestData.CreateVehicle();
+        var ui = new ScriptedUiRenderer().EnqueueKeys(ConsoleKey.Enter);
+        var prompts = new ScriptedPrompts()
+            .EnqueueDate(new DateOnly(2026, 6, 1), new DateOnly(2026, 6, 3))
+            .EnqueueLicence(new DrivingLicence("ABC123", new DateOnly(2026, 12, 31)))
+            .EnqueueChoice(UiStrings.PayCash)
+            .EnqueueConfirm(false);
+        var vehicles = new InMemoryVehicleRepository();
+        vehicles.Add(vehicle);
+        var reservations = new InMemoryReservationRepository();
+
+        new NewReservationFlow(client, ui, prompts, ScreenTestData.Reservations(reservations, vehicles), ScreenTestData.Users(new InMemoryClientRepository(), new InMemoryBackofficeRepository(), reservations: reservations), ScreenTestData.Clock).Run();
+
+        client.DrivingLicence.Should().NotBeNull();
+        reservations.All.Should().BeEmpty();
+        ui.Errors.Should().Contain(UiStrings.Cancelled);
+    }
+
+    [Fact]
+    public void NewReservationFlowCanSurfaceReservationCreationError()
+    {
+        var client = ScreenTestData.CreateClient();
+        var vehicle = ScreenTestData.CreateVehicle();
+        var ui = new ScriptedUiRenderer().EnqueueKeys(ConsoleKey.Enter);
+        var prompts = new ScriptedPrompts()
+            .EnqueueDate(new DateOnly(2026, 5, 20), new DateOnly(2026, 5, 22))
+            .EnqueueChoice(UiStrings.PayCash)
+            .EnqueueConfirm(true);
+        var vehicles = new InMemoryVehicleRepository();
+        vehicles.Add(vehicle);
+        var reservations = new InMemoryReservationRepository();
+
+        new NewReservationFlow(client, ui, prompts, ScreenTestData.Reservations(reservations, vehicles), ScreenTestData.Users(new InMemoryClientRepository(), new InMemoryBackofficeRepository(), reservations: reservations), ScreenTestData.Clock).Run();
+
+        reservations.All.Should().BeEmpty();
+        ui.Errors.Should().Contain("Data rozpoczęcia nie może być w przeszłości.");
+    }
+
+    [Fact]
+    public void NewReservationFlowCanSurfaceLicencePromptErrorAndIgnoreUnknownKeys()
+    {
+        var client = ScreenTestData.CreateClientWithoutLicence();
+        var vehicle = ScreenTestData.CreateVehicle();
+        var ui = new ScriptedUiRenderer().EnqueueKeys(ConsoleKey.F1, ConsoleKey.Enter);
+        var prompts = Substitute.For<IPrompts>();
+        prompts.PromptDate(UiStrings.From, default, new DateOnly(2026, 5, 25)).Returns(new DateOnly(2026, 6, 1));
+        prompts.PromptDate(UiStrings.To, default, new DateOnly(2026, 6, 1)).Returns(new DateOnly(2026, 6, 3));
+        prompts.PromptDrivingLicence().Returns(_ => throw new DomainException("Błąd prawa jazdy."));
+        var vehicles = new InMemoryVehicleRepository();
+        vehicles.Add(vehicle);
+        var reservations = new InMemoryReservationRepository();
+
+        new NewReservationFlow(client, ui, prompts, ScreenTestData.Reservations(reservations, vehicles), ScreenTestData.Users(new InMemoryClientRepository(), new InMemoryBackofficeRepository(), reservations: reservations), ScreenTestData.Clock).Run();
+
+        reservations.All.Should().BeEmpty();
+        ui.Errors.Should().Contain("Błąd prawa jazdy.");
+    }
+
+    [Fact]
+    public void ClientReservationDetailsCanSurfaceCancelFailure()
+    {
+        var client = ScreenTestData.CreateClient();
+        var vehicle = ScreenTestData.CreateVehicle();
+        var reservation = ScreenTestData.CreateReservation(client, vehicle);
+        var ui = Substitute.For<IUiRenderer>();
+        ui.CreateDetailsTable().Returns(new UiTable());
+        ui.ReadKey().Returns(new ConsoleKeyInfo('\0', ConsoleKey.D, false, false, false), new ConsoleKeyInfo('\u001b', ConsoleKey.Escape, false, false, false));
+        ui.ConfirmCancel(Arg.Any<string>(), Arg.Any<string>()).Returns(_ =>
+        {
+            // Współbieżne zakończenie rezerwacji legalną ścieżką domeny zamiast refleksji.
+            reservation.Activate(0, ScreenTestData.Clock);
+            reservation.Complete(1, null);
+            return true;
+        });
+
+        new ClientReservationDetailsScreen(reservation, ui, ScreenTestData.Reservations()).Run();
+
+        ui.Received().Error("Nie można anulować rezerwacji w stanie Zakończona.");
     }
 }
 

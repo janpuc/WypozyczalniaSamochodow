@@ -67,4 +67,7 @@ internal static class UiStrings
     public const string Removed = "Usunięto.";
     public const string Updated = "Zaktualizowano.";
     public const string Cancelled = "Anulowano.";
+
+    public const string From = "Od";
+    public const string To = "Do";
 }
