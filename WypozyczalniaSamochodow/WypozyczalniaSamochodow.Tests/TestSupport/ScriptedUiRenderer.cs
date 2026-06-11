@@ -103,10 +103,8 @@ internal sealed class ScriptedUiRenderer : IUiRenderer
         throw new NotImplementedException();
     }
 
-    public void Heading(string title)
-    {
-        throw new NotImplementedException();
-    }
+    public void Heading(string title) { }
+
 
     public string Highlight(string text)
     {
