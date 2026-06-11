@@ -150,4 +150,7 @@ internal static class UiStrings
     public const string PressAnyKey = "Naciśnij dowolny klawisz, aby kontynuować...";
     public const string ConfirmDelete = "Czy na pewno chcesz usunąć {0} „{1}”?";
     public const string ConfirmCancel = "Czy na pewno chcesz anulować {0} „{1}”?";
+    public const string StatusAvailable = "Dostępny";
+    public const string MileageKm = "{0} km";
+
 }
