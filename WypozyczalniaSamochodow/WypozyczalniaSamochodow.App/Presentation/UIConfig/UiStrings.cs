@@ -80,4 +80,19 @@ internal static class UiStrings
 
     public const string From = "Od";
     public const string To = "Do";
+
+    public const string TabReservations = "Rezerwacje";
+    public const string DrivingLicence = "Prawo jazdy";
+    public const string TabPersonalData = "Dane osobowe";
+    public const string NoReservationsCreate = "Brak rezerwacji. Naciśnij [+] aby utworzyć nową rezerwację.";
+    public const string HintDetails = "Szczegóły";
+    public const string HintNewReservation = "Nowa rezerwacja";
+    public const string HintLogout = "Wyloguj";
+    public const string HintNext = "Dalej";
+    public const string HintEdit = "Edytuj";
+    public const string HintAddLicence = "Dodaj prawo jazdy";
+    public const string Vehicle = "Pojazd";
+    public const string Status = "Status";
+    public const string LicenceValid = "Ważne";
+
 }
