@@ -9,8 +9,12 @@ using WypozyczalniaSamochodow.App.Presentation.UIConfig;
 
 namespace WypozyczalniaSamochodow.App.Presentation;
 
-internal class UiRenderer : IUiRenderer
+internal sealed class UiRenderer : IUiRenderer
 {
+    private const string TabSeparator = " | ";
+    private const string ActiveTabSuffix = " <";
+    private const string InactiveTabSuffix = "  ";
+
     private readonly ITextStyler _styler;
     private readonly IDomainViewFormatter _formatter;
 
@@ -20,143 +24,92 @@ internal class UiRenderer : IUiRenderer
         _formatter = formatter;
     }
 
-    public void AddReservationRows(UiTable table, Reservation reservation)
-    {
-        throw new NotImplementedException();
-    }
+    public void Clear() => AnsiConsole.Clear();
 
-    public void AddVehicleRows(UiTable table, Vehicle vehicle)
-    {
-        throw new NotImplementedException();
-    }
+    public void WriteLine() => AnsiConsole.WriteLine();
 
-    public void Banner(string text)
-    {
-        throw new NotImplementedException();
-    }
+    public void Line(string text, UiRole role = UiRole.Default) => AnsiConsole.MarkupLine(_styler.Colorize(text, role));
 
-    public void Clear()
-    {
-        throw new NotImplementedException();
-    }
-
-    public string Colorize(string text, UiRole role)
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool ConfirmCancel(string entityType, string entityName)
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool ConfirmDelete(string entityType, string entityName)
-    {
-        throw new NotImplementedException();
-    }
-
-    public UiTable CreateDetailsTable()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void DrawTabs(string[] names, int activeIndex)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Error(string message)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string EventLabel(VehicleEvent ev)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string EventLabelColored(VehicleEvent ev, bool active)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string FormatDate(DateOnly? date)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Heading(string title)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string Highlight(string text)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Hint(params HintItem[] items)
-    {
-        throw new NotImplementedException();
-    }
+    public void Hint(params HintItem[] items) => Hint(string.Empty, items);
 
     public void Hint(string prefix, params HintItem[] items)
     {
-        throw new NotImplementedException();
+        var parts = items.Select(i => $"[{i.Key.Label}] {i.Description}");
+        var body = string.Join("  ", parts);
+        if (prefix.Length > 0)
+            body = body.Length > 0 ? $"{prefix}  {body}" : prefix;
+        Line(body, UiRole.Muted);
     }
 
-    public void Line(string text, UiRole role = UiRole.Default)
-    {
-        throw new NotImplementedException();
-    }
+    public void Heading(string title) =>
+        AnsiConsole.Write(new Rule(_styler.Colorize(title, UiRole.Heading)).Centered());
 
-    public string Menu(string title, IEnumerable<string> choices)
-    {
-        throw new NotImplementedException();
-    }
+    public void Banner(string text) =>
+        AnsiConsole.Write(new FigletText(text).Centered().Color(Theme.ColorOf(UiRole.Heading)));
 
-    public string PaymentLabel(Payment payment)
+    public void Render(UiTable table)
     {
-        throw new NotImplementedException();
+        var t = new Table().Border(TableBorder.Rounded).BorderColor(Theme.ColorOf(UiRole.Muted));
+        foreach (var (text, role) in table.Columns)
+            t.AddColumn(_styler.Colorize(text, role));
+        foreach (var row in table.Rows)
+        {
+            if (row.Length == 0) t.AddEmptyRow();
+            else t.AddRow(row);
+        }
+        AnsiConsole.Write(t);
     }
 
     public ConsoleKeyInfo ReadKey()
     {
-        throw new NotImplementedException();
+        var key = AnsiConsole.Console.Input.ReadKey(true);
+        return key ?? throw new InvalidOperationException("Nie można odczytać klawisza z wejścia konsoli.");
     }
 
-    public void Render(UiTable table)
-    {
-        throw new NotImplementedException();
-    }
+    public string Menu(string title, IEnumerable<string> choices) =>
+        AnsiConsole.Prompt(new SelectionPrompt<string>().Title(_styler.Colorize(title, UiRole.Accent)).AddChoices(choices));
 
-    public string ReservationStatus(Reservation reservation)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void RunWithStatus(string message, Action action)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Success(string message)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string VehicleStatus(Vehicle vehicle)
-    {
-        throw new NotImplementedException();
-    }
+    public void RunWithStatus(string message, Action action) =>
+        AnsiConsole.Status().Start(message, _ => action());
 
     public void WaitForKey(string? message = null)
     {
-        throw new NotImplementedException();
+        AnsiConsole.WriteLine(message ?? UiStrings.PressAnyKey);
+        AnsiConsole.Console.Input.ReadKey(true);
     }
 
-    public void WriteLine()
+    public void Error(string message) { Line(message, UiRole.Error); WaitForKey(); }
+    public void Success(string message) { Line(message, UiRole.Success); WaitForKey(); }
+
+    public bool ConfirmDelete(string entityType, string entityName) =>
+        AnsiConsole.Confirm(_styler.Colorize(string.Format(UiStrings.ConfirmDelete, entityType, entityName), UiRole.Error));
+
+    public bool ConfirmCancel(string entityType, string entityName) =>
+        AnsiConsole.Confirm(_styler.Colorize(string.Format(UiStrings.ConfirmCancel, entityType, entityName), UiRole.Warning));
+
+    public void DrawTabs(string[] names, int activeIndex)
     {
-        throw new NotImplementedException();
+        var parts = new List<string>();
+        for (int i = 0; i < names.Length; i++)
+        {
+            bool active = i == activeIndex;
+            var prefix = active ? UiStrings.RowSelected : UiStrings.RowUnselected;
+            var suffix = active ? ActiveTabSuffix : InactiveTabSuffix;
+            parts.Add(_styler.Colorize($"{prefix}{names[i]}{suffix}", active ? UiRole.Accent : UiRole.Muted));
+        }
+        AnsiConsole.MarkupLine(string.Join(TabSeparator, parts));
     }
+
+    public string Colorize(string text, UiRole role) => _styler.Colorize(text, role);
+    public string Highlight(string text) => _styler.Highlight(text);
+
+    public UiTable CreateDetailsTable() => _formatter.CreateDetailsTable();
+    public string FormatDate(DateOnly? date) => _formatter.FormatDate(date);
+    public string EventLabel(VehicleEvent ev) => _formatter.EventLabel(ev);
+    public string EventLabelColored(VehicleEvent ev, bool active) => _formatter.EventLabelColored(ev, active);
+    public string VehicleStatus(Vehicle vehicle) => _formatter.VehicleStatus(vehicle);
+    public string ReservationStatus(Reservation reservation) => _formatter.ReservationStatus(reservation);
+    public string PaymentLabel(Payment payment) => _formatter.PaymentLabel(payment);
+    public void AddVehicleRows(UiTable table, Vehicle vehicle) => _formatter.AddVehicleRows(table, vehicle);
+    public void AddReservationRows(UiTable table, Reservation reservation) => _formatter.AddReservationRows(table, reservation);
 }

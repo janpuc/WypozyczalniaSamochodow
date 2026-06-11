@@ -147,4 +147,7 @@ internal static class UiStrings
     public const string Vin = "VIN";
     public const string Year = "Rok";
     public const string Yes = "Tak";
+    public const string PressAnyKey = "Naciśnij dowolny klawisz, aby kontynuować...";
+    public const string ConfirmDelete = "Czy na pewno chcesz usunąć {0} „{1}”?";
+    public const string ConfirmCancel = "Czy na pewno chcesz anulować {0} „{1}”?";
 }
