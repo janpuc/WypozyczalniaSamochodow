@@ -2,10 +2,10 @@
 
 using NSubstitute;
 
-using WypozyczalniaSamochodow.App;
 using WypozyczalniaSamochodow.App.Application.Auth;
 using WypozyczalniaSamochodow.App.Domain.Users;
 using WypozyczalniaSamochodow.App.Infrastructure.Persistence;
+using WypozyczalniaSamochodow.App.Presentation;
 using WypozyczalniaSamochodow.App.Presentation.UIConfig;
 using WypozyczalniaSamochodow.Tests.TestSupport;
 

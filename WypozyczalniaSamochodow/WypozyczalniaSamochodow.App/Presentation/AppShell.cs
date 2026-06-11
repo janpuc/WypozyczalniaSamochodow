@@ -3,7 +3,7 @@ using WypozyczalniaSamochodow.App.Presentation.Abstraction;
 using WypozyczalniaSamochodow.App.Presentation.Navigation;
 using WypozyczalniaSamochodow.App.Presentation.UIConfig;
 
-namespace WypozyczalniaSamochodow.App;
+namespace WypozyczalniaSamochodow.App.Presentation;
 
 internal sealed class AppShell
 {
