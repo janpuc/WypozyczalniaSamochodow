@@ -147,4 +147,8 @@ internal static class UiStrings
     public const string Vin = "VIN";
     public const string Year = "Rok";
     public const string Yes = "Tak";
+
+    public const string TitleDetailsFor = "{0} – Szczegóły";
+    public const string HintResetPassword = "Reset hasła";
+    public const string EntityUser = "użytkownika";
 }
