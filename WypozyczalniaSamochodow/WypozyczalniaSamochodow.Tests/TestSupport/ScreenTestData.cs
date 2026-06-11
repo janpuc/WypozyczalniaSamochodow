@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 using WypozyczalniaSamochodow.App.Application.Auth;
+using WypozyczalniaSamochodow.App.Application.Fleet;
 using WypozyczalniaSamochodow.App.Application.Repositories;
 using WypozyczalniaSamochodow.App.Application.Reservations;
 using WypozyczalniaSamochodow.App.Application.Users;
@@ -26,6 +27,7 @@ internal static class ScreenTestData
     {
         var services = new ServiceCollection();
         services.AddSingleton<IClock>(Clock);
+        services.AddSingleton<IPasswordHasher>(hasher ?? new FakePasswordHasher());
         services.AddSingleton(clients);
         services.AddSingleton(backoffice);
         services.AddSingleton(vehicles);
@@ -33,6 +35,10 @@ internal static class ScreenTestData
         services.AddSingleton(ui);
         services.AddSingleton(prompts);
         services.AddSingleton<AuthService>();
+        services.AddSingleton<ReservationService>();
+        services.AddSingleton<VehicleService>();
+        services.AddSingleton<UserAccountService>();
+        services.AddSingleton<INavigator, ScreenNavigator>();
         return services.BuildServiceProvider().GetRequiredService<INavigator>();
     }
 
