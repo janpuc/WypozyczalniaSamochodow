@@ -22,17 +22,23 @@ internal sealed class ReservationService
 
     public Reservation Create(Client client, Vehicle vehicle, DateRange period, Payment payment)
     {
-        throw new NotImplementedException();
+        var reservation = new Reservation(client, vehicle, period, payment, _clock);
+        _reservations.Add(reservation);
+        return reservation;
     }
 
-    public void Activate(Reservation reservation, int mileageBefore) => throw new NotImplementedException();
+    public void Activate(Reservation reservation, int mileageBefore) => reservation.Activate(mileageBefore, _clock);
 
-    public void Complete(Reservation reservation, int mileageAfter, string? note) => throw new NotImplementedException();
+    public void Complete(Reservation reservation, int mileageAfter, string? note) =>
+        reservation.Complete(mileageAfter, note);
 
-    public void Cancel(Reservation reservation) => throw new NotImplementedException();
+    public void Cancel(Reservation reservation) => reservation.Cancel();
 
-    public void SwapVehicle(Reservation reservation, Vehicle newVehicle) => throw new NotImplementedException();
+    public void SwapVehicle(Reservation reservation, Vehicle newVehicle) =>
+        reservation.SwapVehicle(newVehicle, _clock);
 
-    public IReadOnlyList<Vehicle> AvailableVehicles(DateRange period, Vehicle? excluding = null) => throw new NotImplementedException();
+    public IReadOnlyList<Vehicle> AvailableVehicles(DateRange period, Vehicle? excluding = null) =>
+        _vehicles.All
+            .Where(v => !ReferenceEquals(v, excluding) && v.IsAvailableFor(period, _clock))
+            .ToList();
 }
-
