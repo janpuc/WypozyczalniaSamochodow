@@ -81,10 +81,29 @@ internal static class UiStrings
     public const string From = "Od";
     public const string To = "Do";
 
+    public const string VehicleAdded = "Pojazd dodany!";
+    public const string ClientAdded = "Klient dodany!";
+    public const string UserAdded = "Użytkownik dodany!";
+    public const string InsuranceAdded = "Dodano ubezpieczenie.";
+    public const string EventAdded = "Zdarzenie dodane.";
+    public const string RepairCreated = "Naprawa utworzona.";
+    public const string ReservationActivated = "Aktywowano.";
+    public const string ReservationCompleted = "Zakończono.";
+    public const string VehicleSwapped = "Pojazd wymieniony.";
+    public const string NoVehiclesAvailable = "Brak dostępnych pojazdów.";
+
+    public const string PasswordReset = "Hasło zresetowane.";
+    public const string ClientHasActiveReservations = "Klient ma aktywne rezerwacje.";
+
+    public const string NoInsurances = "Brak ubezpieczeń.";
+    public const string NoEvents = "Brak zdarzeń.";
+    public const string NoReservations = "Brak rezerwacji.";
+    public const string NoReservationsCreate = "Brak rezerwacji. Naciśnij [+] aby utworzyć nową rezerwację.";
+
+
     public const string TabReservations = "Rezerwacje";
     public const string DrivingLicence = "Prawo jazdy";
     public const string TabPersonalData = "Dane osobowe";
-    public const string NoReservationsCreate = "Brak rezerwacji. Naciśnij [+] aby utworzyć nową rezerwację.";
     public const string HintDetails = "Szczegóły";
     public const string HintNewReservation = "Nowa rezerwacja";
     public const string HintLogout = "Wyloguj";

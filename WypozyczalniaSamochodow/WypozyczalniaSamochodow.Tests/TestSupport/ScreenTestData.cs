@@ -85,4 +85,9 @@ internal static class ScreenTestData
 
     public static ReservationService Reservations()
         => new(new InMemoryReservationRepository(), new InMemoryVehicleRepository(), Clock);
+    public static VehicleService Vehicles(IVehicleRepository vehicles)
+    => new(vehicles);
+
+    public static VehicleService Vehicles()
+        => new(new InMemoryVehicleRepository());
 }
