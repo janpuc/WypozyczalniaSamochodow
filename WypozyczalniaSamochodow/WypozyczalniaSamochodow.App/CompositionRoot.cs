@@ -11,6 +11,7 @@ using WypozyczalniaSamochodow.App.Domain.Shared;
 using WypozyczalniaSamochodow.App.Domain.Users;
 using WypozyczalniaSamochodow.App.Infrastructure.Persistence;
 using WypozyczalniaSamochodow.App.Infrastructure.Security;
+using WypozyczalniaSamochodow.App.Infrastructure.Seed;
 using WypozyczalniaSamochodow.App.Infrastructure.Time;
 using WypozyczalniaSamochodow.App.Presentation;
 using WypozyczalniaSamochodow.App.Presentation.Abstraction;
@@ -41,8 +42,12 @@ internal static class CompositionRoot
         services.AddSingleton<IPrompts, Prompts>();
         services.AddSingleton<INavigator, ScreenNavigator>();
         services.AddSingleton<AppShell>();
+        services.AddSingleton<DemoSeedScenario>();
+
 
         var provider = services.BuildServiceProvider();
+
+        provider.GetRequiredService<DemoSeedScenario>().Run();
 
         return provider.GetRequiredService<AppShell>();
     }
