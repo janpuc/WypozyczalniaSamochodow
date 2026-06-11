@@ -2,12 +2,14 @@
 
 using WypozyczalniaSamochodow.App.Application.Auth;
 using WypozyczalniaSamochodow.App.Application.Repositories;
+using WypozyczalniaSamochodow.App.Application.Users;
 using WypozyczalniaSamochodow.App.Domain.Fleet;
 using WypozyczalniaSamochodow.App.Domain.Insurance;
 using WypozyczalniaSamochodow.App.Domain.Payments;
 using WypozyczalniaSamochodow.App.Domain.Reservations;
 using WypozyczalniaSamochodow.App.Domain.Shared;
 using WypozyczalniaSamochodow.App.Domain.Users;
+using WypozyczalniaSamochodow.App.Infrastructure.Persistence;
 using WypozyczalniaSamochodow.App.Presentation.Abstraction;
 using WypozyczalniaSamochodow.App.Presentation.Navigation;
 
@@ -56,4 +58,16 @@ internal static class ScreenTestData
     => new(client, vehicle,
         period ?? DateRange.Closed(new DateOnly(2026, 6, 1), new DateOnly(2026, 6, 3)),
         payment ?? new CashPayment(new Money(300m), Clock.Now), Clock);
+
+    public static Client CreateClientWithoutLicence(string fullName = "Jan Kowalski", string email = "jan@example.com")
+    => new(fullName, new Email(email), Password);
+
+    public static UserAccountService Users(IClientRepository clients, IBackofficeRepository backoffice,
+    IPasswordHasher? hasher = null, IReservationRepository? reservations = null)
+    => new(clients, backoffice, reservations ?? new InMemoryReservationRepository(), hasher ?? new FakePasswordHasher());
+
+    public static INavigator Navigator(IUiRenderer ui, IPrompts prompts,
+    IVehicleRepository vehicles, IReservationRepository reservations, IPasswordHasher? hasher = null)
+    => Navigator(ui, prompts, new InMemoryClientRepository(), new InMemoryBackofficeRepository(),
+        vehicles, reservations, hasher);
 }

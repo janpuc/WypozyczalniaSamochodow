@@ -29,6 +29,12 @@ internal sealed class ScriptedUiRenderer : IUiRenderer
         return this;
     }
 
+    public ScriptedUiRenderer EnqueueConfirmations(params bool[] values)
+    {
+        foreach (var value in values) _confirmations.Enqueue(value);
+        return this;
+    }
+
     public void AddReservationRows(UiTable table, Reservation reservation)
     {
         throw new NotImplementedException();
