@@ -65,4 +65,19 @@ internal static class UiStrings
     public const string MileageBefore = "Przebieg przed";
     public const string MileageAfter = "Przebieg po";
     public const string CompletionNote = "Opis zakończenia";
+
+    public const string LicenceAdded = "Dodano prawo jazdy.";
+    public const string PersonalDataUpdated = "Dane zaktualizowane.";
+    public const string PayCash = "Gotówka";
+
+    public const string ReservationCreated = "Rezerwacja utworzona!";
+    public const string LicenceEditLocked = "Nie można edytować prawa jazdy — masz aktywne rezerwacje.";
+    public const string PersonalDataEditLocked = "Nie można edytować danych — masz aktywne rezerwacje.";
+
+    public const string Removed = "Usunięto.";
+    public const string Updated = "Zaktualizowano.";
+    public const string Cancelled = "Anulowano.";
+
+    public const string From = "Od";
+    public const string To = "Do";
 }

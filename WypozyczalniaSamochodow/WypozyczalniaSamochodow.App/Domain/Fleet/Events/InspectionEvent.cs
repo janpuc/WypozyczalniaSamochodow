@@ -5,7 +5,10 @@ namespace WypozyczalniaSamochodow.App.Domain.Fleet.Events;
 
 internal sealed class InspectionEvent : VehicleEvent
 {
-    public InspectionEvent(DateRange period, string? description = null) : base(period, description) { }
+    public InspectionEvent(DateRange period, string? description = null) : base(period, description) { 
+        if (period.To is null)
+            throw new DomainException("Przegląd musi mieć datę zakończenia.");
+    }
     public override string Describe() => "Przegląd pojazdu";
     public override T Accept<T>(IVehicleEventVisitor<T> visitor) => visitor.Visit(this);
 }
