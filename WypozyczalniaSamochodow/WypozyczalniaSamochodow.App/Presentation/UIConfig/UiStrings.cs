@@ -120,5 +120,27 @@ internal static class UiStrings
     public const string HintCancelReservation = "Anuluj rezerwację";
     public const string HintBack = "Wróć";
     public const string EntityReservation = "rezerwację";
+    public const string PayDebitCard = "Karta debetowa";
+    public const string PayBankTransfer = "Przelew";
+    public const string PayBitcoin = "Bitcoin";
+    public const string PayPayPal = "PayPal";
+    public const string PromptCardLast4 = "Ostatnie 4 cyfry karty";
+    public const string PromptIban = "IBAN";
+    public const string PromptWalletAddress = "Adres portfela Bitcoin";
+    public const string TitleNewReservationVehicle = "Nowa rezerwacja – Wybór pojazdu";
+    public const string HintChangeDates = "Zmień daty";
+    public const string HintSelect = "Wybierz";
+    public const string HintCancel = "Anuluj";
+    public const string TitleChooseDates = "Wybór terminu rezerwacji";
+    public const string Make = "Marka";
+    public const string Model = "Model";
+    public const string Year = "Rok";
+    public const string PricePerDay = "Cena/dzień";
+    public const string TitleNewReservationFor = "Nowa rezerwacja – {0} {1}";
+    public const string NoLicenceEnterData = "Brak prawa jazdy. Wprowadź dane:";
+    public const string Days = "Dni";
+    public const string Total = "Łącznie";
+    public const string Method = "Metoda";
+    public const string ConfirmReservation = "Potwierdzasz rezerwację?";
 
 }
