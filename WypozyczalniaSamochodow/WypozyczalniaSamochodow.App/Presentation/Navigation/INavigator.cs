@@ -1,5 +1,6 @@
 ﻿using WypozyczalniaSamochodow.App.Domain.Fleet;
 using WypozyczalniaSamochodow.App.Domain.Fleet.Events;
+using WypozyczalniaSamochodow.App.Domain.Reservations;
 
 namespace WypozyczalniaSamochodow.App.Presentation.Navigation;
 
@@ -10,6 +11,8 @@ internal interface INavigator
     void OpenBackofficeDashboard();
     void OpenClientDashboard(Domain.Users.Client client);
     void OpenNewReservation(Domain.Users.Client client);
+    void OpenClientReservationDetails(Reservation reservation);
+    void OpenReservationDetails(Reservation reservation);
     void OpenVehicleDetails(Vehicle vehicle);
     void OpenClientDetails(Domain.Users.Client client);
     void OpenBackofficeUserDetails(Domain.Users.Backoffice user);
