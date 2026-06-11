@@ -29,150 +29,57 @@ internal sealed class ScriptedUiRenderer : IUiRenderer
         return this;
     }
 
-    public ScriptedUiRenderer EnqueueConfirmations(params bool[] values)
-    {
-        foreach (var value in values) _confirmations.Enqueue(value);
-        return this;
-    }
-
-    public void AddReservationRows(UiTable table, Reservation reservation)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void AddVehicleRows(UiTable table, Vehicle vehicle)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Banner(string text)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Clear() { }
-
-    public string Colorize(string text, UiRole role)
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool ConfirmCancel(string entityType, string entityName)
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool ConfirmDelete(string entityType, string entityName)
-    {
-        throw new NotImplementedException();
-    }
-
-    public UiTable CreateDetailsTable()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void DrawTabs(string[] names, int activeIndex)
-    {
-        throw new NotImplementedException();
-    }
-
     public ScriptedUiRenderer EnqueueKeys(params ConsoleKey[] keys)
     {
         foreach (var key in keys) _keys.Enqueue(new ConsoleKeyInfo('\0', key, false, false, false));
         return this;
     }
 
-    public void Error(string message)
+    public ScriptedUiRenderer EnqueueConfirmations(params bool[] values)
     {
-        throw new NotImplementedException();
+        foreach (var value in values) _confirmations.Enqueue(value);
+        return this;
     }
 
-    public string EventLabel(VehicleEvent ev)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string EventLabelColored(VehicleEvent ev, bool active)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string FormatDate(DateOnly? date)
-    {
-        throw new NotImplementedException();
-    }
-
+    public void Clear() { }
+    public void WriteLine() { }
+    public void Line(string text, UiRole role = UiRole.Default) => _lines.Add(text);
+    public void Hint(params HintItem[] items) { }
+    public void Hint(string prefix, params HintItem[] items) { }
     public void Heading(string title) { }
+    public void Banner(string text) { }
+    public void Render(UiTable table) => _renderedTables.Add(table);
 
+    public ConsoleKeyInfo ReadKey() => _keys.Count > 0
+        ? _keys.Dequeue()
+        : new ConsoleKeyInfo('\r', ConsoleKey.Enter, false, false, false);
 
-    public string Highlight(string text)
-    {
-        throw new NotImplementedException();
-    }
+    public string Menu(string title, IEnumerable<string> choices) => _menuChoices.Count > 0
+        ? _menuChoices.Dequeue()
+        : choices.First();
 
-    public void Hint(params HintItem[] items)
-    {
-        throw new NotImplementedException();
-    }
+    public void RunWithStatus(string message, Action action) => action();
 
-    public void Hint(string prefix, params HintItem[] items)
-    {
-        throw new NotImplementedException();
-    }
+    public void WaitForKey(string? message = null) => WaitForKeyCalls++;
 
-    public void Line(string text, UiRole role = UiRole.Default)
-    {
-        throw new NotImplementedException();
-    }
+    public void Error(string message) => _errors.Add(message);
+    public void Success(string message) => _successes.Add(message);
 
-    public string Menu(string title, IEnumerable<string> choices)
-    {
-        throw new NotImplementedException();
-    }
+    public bool ConfirmDelete(string entityType, string entityName) => _confirmations.Count > 0 ? _confirmations.Dequeue() : true;
+    public bool ConfirmCancel(string entityType, string entityName) => _confirmations.Count > 0 ? _confirmations.Dequeue() : true;
 
-    public string PaymentLabel(Payment payment)
-    {
-        throw new NotImplementedException();
-    }
+    public void DrawTabs(string[] names, int activeIndex) { }
 
-    public ConsoleKeyInfo ReadKey()
-    {
-        throw new NotImplementedException();
-    }
+    public string Colorize(string text, UiRole role) => text;
+    public string Highlight(string text) => text;
 
-    public void Render(UiTable table)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string ReservationStatus(Reservation reservation)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void RunWithStatus(string message, Action action)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Success(string message)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string VehicleStatus(Vehicle vehicle)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void WaitForKey(string? message = null)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void WriteLine()
-    {
-        throw new NotImplementedException();
-    }
+    public UiTable CreateDetailsTable() => new();
+    public string FormatDate(DateOnly? date) => date?.ToString(UiFormats.Date) ?? UiStrings.DateEmpty;
+    public string EventLabel(VehicleEvent ev) => ev.Describe();
+    public string EventLabelColored(VehicleEvent ev, bool active) => ev.Describe();
+    public string VehicleStatus(Vehicle vehicle) => "status";
+    public string ReservationStatus(Reservation reservation) => reservation.Status.Label;
+    public string PaymentLabel(Payment payment) => payment.Describe();
+    public void AddVehicleRows(UiTable table, Vehicle vehicle) { }
+    public void AddReservationRows(UiTable table, Reservation reservation) { }
 }

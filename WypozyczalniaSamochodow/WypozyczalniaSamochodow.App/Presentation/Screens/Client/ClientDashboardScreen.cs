@@ -157,4 +157,3 @@ internal sealed class ClientDashboardScreen : IScreen
         _ui.Render(t);
     }
 }
-
