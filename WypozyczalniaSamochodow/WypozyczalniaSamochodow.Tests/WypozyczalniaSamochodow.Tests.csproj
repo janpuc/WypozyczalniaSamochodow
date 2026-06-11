@@ -27,7 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Infrastructure\" />
+	  <Folder Include="Presentation\Screens\Backoffice\" />
 	</ItemGroup>
 
 </Project>
