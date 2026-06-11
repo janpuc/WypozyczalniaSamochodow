@@ -27,6 +27,7 @@ internal static class ScreenTestData
     {
         var services = new ServiceCollection();
         services.AddSingleton<IClock>(Clock);
+        services.AddSingleton<IPasswordHasher>(hasher ?? new FakePasswordHasher());
         services.AddSingleton(clients);
         services.AddSingleton(backoffice);
         services.AddSingleton(vehicles);
@@ -34,6 +35,10 @@ internal static class ScreenTestData
         services.AddSingleton(ui);
         services.AddSingleton(prompts);
         services.AddSingleton<AuthService>();
+        services.AddSingleton<ReservationService>();
+        services.AddSingleton<VehicleService>();
+        services.AddSingleton<UserAccountService>();
+        services.AddSingleton<INavigator, ScreenNavigator>();
         return services.BuildServiceProvider().GetRequiredService<INavigator>();
     }
 

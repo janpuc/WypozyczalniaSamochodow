@@ -23,41 +23,60 @@ internal sealed class UserAccountService
 
     public Client CreateClient(string fullName, Email email, string plainPassword, DrivingLicence? licence)
     {
-        throw new NotImplementedException();
+        EnsureEmailAvailable(email);
+        EnsurePasswordMeetsPolicy(plainPassword);
+        var client = new Client(fullName, email, Password.FromPlain(plainPassword, _hasher), licence);
+        _clients.Add(client);
+        return client;
     }
 
     public Backoffice CreateBackofficeUser(string fullName, Email email, string plainPassword)
     {
-        throw new NotImplementedException();
+        EnsureEmailAvailable(email);
+        EnsurePasswordMeetsPolicy(plainPassword);
+        var user = new Backoffice(fullName, email, Password.FromPlain(plainPassword, _hasher));
+        _backoffice.Add(user);
+        return user;
     }
 
     public void ResetPassword(User user, string plainPassword)
     {
-        throw new NotImplementedException();
+        EnsurePasswordMeetsPolicy(plainPassword);
+        user.ResetPassword(plainPassword, _hasher);
     }
 
     public void UpdateProfile(User user, string fullName, string email)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(fullName))
+            throw new DomainException("Imię i nazwisko nie może być puste.");
+        var newEmail = new Email(email);
+        if (!newEmail.Equals(user.Email))
+            EnsureEmailAvailable(newEmail);
+        user.Rename(fullName);
+        user.ChangeEmail(newEmail);
     }
 
     public void RegisterLicence(Client client, DrivingLicence licence) => client.RegisterLicence(licence);
 
     public void RemoveClient(Client client)
     {
-        throw new NotImplementedException();
+        if (_reservations.HasActiveOf(client))
+            throw new DomainException("Nie można usunąć klienta z aktywną rezerwacją.");
+        _clients.Remove(client);
     }
 
-    public void RemoveBackofficeUser(Backoffice user) => throw new NotImplementedException();
+    public void RemoveBackofficeUser(Backoffice user) => _backoffice.Remove(user);
 
     private void EnsureEmailAvailable(Email email)
     {
-        throw new NotImplementedException();
+        if (_clients.IsEmailTaken(email) || _backoffice.IsEmailTaken(email))
+            throw new DomainException("Użytkownik z tym emailem już istnieje.");
     }
 
     private static void EnsurePasswordMeetsPolicy(string plainPassword)
     {
-        throw new NotImplementedException();
+        if (!PasswordPolicy.IsSatisfiedBy(plainPassword))
+            throw new DomainException($"Hasło musi mieć co najmniej {PasswordPolicy.MinimumLength} znaków.");
     }
 }
 

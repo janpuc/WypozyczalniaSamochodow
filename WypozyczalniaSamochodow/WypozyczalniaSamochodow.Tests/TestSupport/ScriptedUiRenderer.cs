@@ -50,10 +50,7 @@ internal sealed class ScriptedUiRenderer : IUiRenderer
         throw new NotImplementedException();
     }
 
-    public void Clear()
-    {
-        throw new NotImplementedException();
-    }
+    public void Clear() { }
 
     public string Colorize(string text, UiRole role)
     {
@@ -106,10 +103,8 @@ internal sealed class ScriptedUiRenderer : IUiRenderer
         throw new NotImplementedException();
     }
 
-    public void Heading(string title)
-    {
-        throw new NotImplementedException();
-    }
+    public void Heading(string title) { }
+
 
     public string Highlight(string text)
     {

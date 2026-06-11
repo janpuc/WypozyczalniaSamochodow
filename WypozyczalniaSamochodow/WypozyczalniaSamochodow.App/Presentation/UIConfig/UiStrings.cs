@@ -9,6 +9,11 @@ internal static class UiStrings
     public const string MenuExit = "Wyjdź";
     public const string Goodbye = "Do widzenia!";
 
+    public const string FullName = "Imię i nazwisko";
+    public const string Email = "Email";
+    public const string LicenceNumber = "Numer prawa jazdy";
+    public const string LicenceExpiry = "Data ważności";
+
     public const string TitleLogin = "Logowanie";
     public const string LoginSuccess = "Zalogowano pomyślnie!";
     public const string LoginFailed = "Nieprawidłowy email lub hasło.";
@@ -22,11 +27,16 @@ internal static class UiStrings
     public const string RegisterSuccess = "Rejestracja zakończona pomyślnie!";
     public const string RegisterFailed = "Rejestracja nie powiodła się.";
 
+    public const string PromptPassword = "Hasło";
+    public const string PromptPasswordConfirm = "Potwierdź hasło";
+    public const string PromptDateHint = " (rrrr-mm-dd)";
+
     public const string ValidationEmailTaken = "Użytkownik z tym emailem już istnieje.";
     public const string ValidationEmailInvalid = "Podaj prawidłowy adres email.";
     public const string ValidationPasswordEmpty = "Hasło nie może być puste.";
     public const string ValidationPasswordTooShort = "Hasło musi mieć co najmniej {0} znaków.";
     public const string ValidationPasswordMismatch = "Hasła nie są zgodne.";
+    public const string ValidationDateNotBefore = "Data nie może być wcześniejsza niż {0}.";
 
     public const string HintDelete = "Usuń";
     public const string PromptLabelSuffix = ":";
@@ -89,5 +99,20 @@ internal static class UiStrings
     public const string NoEvents = "Brak zdarzeń.";
     public const string NoReservations = "Brak rezerwacji.";
     public const string NoReservationsCreate = "Brak rezerwacji. Naciśnij [+] aby utworzyć nową rezerwację.";
+
+
+    public const string TabReservations = "Rezerwacje";
+    public const string DrivingLicence = "Prawo jazdy";
+    public const string TabPersonalData = "Dane osobowe";
+    public const string NoReservationsCreate = "Brak rezerwacji. Naciśnij [+] aby utworzyć nową rezerwację.";
+    public const string HintDetails = "Szczegóły";
+    public const string HintNewReservation = "Nowa rezerwacja";
+    public const string HintLogout = "Wyloguj";
+    public const string HintNext = "Dalej";
+    public const string HintEdit = "Edytuj";
+    public const string HintAddLicence = "Dodaj prawo jazdy";
+    public const string Vehicle = "Pojazd";
+    public const string Status = "Status";
+    public const string LicenceValid = "Ważne";
 
 }
