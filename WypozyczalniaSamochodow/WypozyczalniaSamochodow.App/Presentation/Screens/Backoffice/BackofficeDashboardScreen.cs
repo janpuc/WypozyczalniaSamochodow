@@ -1,9 +1,9 @@
 ﻿using WypozyczalniaSamochodow.App.Application.Repositories;
 using WypozyczalniaSamochodow.App.Presentation.Abstraction;
 using WypozyczalniaSamochodow.App.Presentation.Navigation;
+using WypozyczalniaSamochodow.App.Presentation.UIConfig;
 
 namespace WypozyczalniaSamochodow.App.Presentation.Screens.Backoffice;
-
 
 internal sealed class BackofficeDashboardScreen : IScreen
 {
@@ -34,6 +34,7 @@ internal sealed class BackofficeDashboardScreen : IScreen
     private readonly IReservationRepository _reservations;
     private readonly INavigator _navigator;
     private readonly Tab[] _tabs;
+
 
     public BackofficeDashboardScreen(IUiRenderer ui, IPrompts prompts, IClientRepository clients,
         IBackofficeRepository backoffice, IVehicleRepository vehicles,

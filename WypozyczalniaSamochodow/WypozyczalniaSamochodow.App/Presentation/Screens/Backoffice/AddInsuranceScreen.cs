@@ -1,6 +1,9 @@
 ﻿using WypozyczalniaSamochodow.App.Application.Fleet;
 using WypozyczalniaSamochodow.App.Domain.Fleet;
+using WypozyczalniaSamochodow.App.Domain.Insurance;
+using WypozyczalniaSamochodow.App.Domain.Shared;
 using WypozyczalniaSamochodow.App.Presentation.Abstraction;
+using WypozyczalniaSamochodow.App.Presentation.UIConfig;
 
 namespace WypozyczalniaSamochodow.App.Presentation.Screens.Backoffice;
 
@@ -12,7 +15,7 @@ internal sealed class AddInsuranceScreen : IScreen
     private readonly VehicleService _vehicleService;
     public AddInsuranceScreen(Vehicle vehicle, IUiRenderer ui, IPrompts prompts, VehicleService vehicleService)
     {
-        _vehicle = vehicle; _ui = ui; _prompts = prompts; _vehicleService = vehicleService; }
+        _vehicle = vehicle; _ui = ui; _prompts = prompts; _vehicleService = vehicleService;
     }
 
     public void Run()
