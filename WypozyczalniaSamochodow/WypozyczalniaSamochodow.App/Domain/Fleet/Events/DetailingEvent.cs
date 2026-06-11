@@ -5,7 +5,10 @@ namespace WypozyczalniaSamochodow.App.Domain.Fleet.Events;
 
 internal sealed class DetailingEvent : VehicleEvent
 {
-    public DetailingEvent(DateRange period, string? description = null) : base(period, description) { }
+    public DetailingEvent(DateRange period, string? description = null) : base(period, description) { 
+        if (period.To is null)
+            throw new DomainException("Detailing musi mieć datę zakończenia.");
+    }
     public override string Describe() => "Detailing pojazdu";
     public override T Accept<T>(IVehicleEventVisitor<T> visitor) => visitor.Visit(this);
 }
