@@ -151,4 +151,13 @@ internal static class UiStrings
     public const string TitleDetailsFor = "{0} – Szczegóły";
     public const string HintResetPassword = "Reset hasła";
     public const string EntityUser = "użytkownika";
+    public const string EntityClient = "klienta";
+    public const string TitleCreateRepair = "Utwórz naprawę";
+    public const string RepairDescriptionPrefix = "({0}) - ";
+    public const string Description = "Opis";
+    public const string HintActivate = "Aktywuj";
+    public const string HintSwapVehicle = "Wymień pojazd";
+    public const string PromptMileageStart = "Przebieg początkowy (km)";
+    public const string PromptMileageEnd = "Przebieg końcowy (km)";
+    public const string HintComplete = "Zakończ";
 }
