@@ -11,11 +11,23 @@ internal sealed class Schedule
 
     public IReadOnlyList<VehicleEvent> Events => _events;
 
-    public void Add(VehicleEvent ev) { throw new NotImplementedException(); }
+    public void Add(VehicleEvent ev) {
+        if (WouldConflict(ev))
+            throw new DomainException("Nowe zdarzenie nakłada się na istniejące zdarzenie w harmonogramie.");
+        _events.Add(ev);
+    }
 
     public void Remove(VehicleEvent ev) => _events.Remove(ev);
     
-    public void Reschedule(VehicleEvent ev, DateRange newPeriod) { throw new NotImplementedException(); }
+    public void Reschedule(VehicleEvent ev, DateRange newPeriod) {
+        var original = ev.Period;
+        ev.ReplacePeriod(newPeriod);
+        if (_events.Any(other => !ReferenceEquals(other, ev) && ev.ConflictsWith(other)))
+        {
+            ev.ReplacePeriod(original);
+            throw new DomainException("Nowy termin nakłada się na istniejące zdarzenie w harmonogramie.");
+        }
+    }
 
     public bool WouldConflict(VehicleEvent newOne) =>
         _events.Any(existing => newOne.ConflictsWith(existing));
