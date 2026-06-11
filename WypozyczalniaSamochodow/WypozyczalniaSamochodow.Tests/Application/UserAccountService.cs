@@ -1,5 +1,5 @@
 ﻿using AwesomeAssertions;
-
+using WypozyczalniaSamochodow.App.Application.Users;
 using WypozyczalniaSamochodow.App.Domain.Shared;
 using WypozyczalniaSamochodow.App.Domain.Users;
 using WypozyczalniaSamochodow.App.Infrastructure.Persistence;
