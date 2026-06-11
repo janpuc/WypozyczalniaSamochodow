@@ -104,7 +104,6 @@ internal static class UiStrings
     public const string TabReservations = "Rezerwacje";
     public const string DrivingLicence = "Prawo jazdy";
     public const string TabPersonalData = "Dane osobowe";
-    public const string NoReservationsCreate = "Brak rezerwacji. Naciśnij [+] aby utworzyć nową rezerwację.";
     public const string HintDetails = "Szczegóły";
     public const string HintNewReservation = "Nowa rezerwacja";
     public const string HintLogout = "Wyloguj";
