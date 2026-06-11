@@ -9,18 +9,18 @@ internal sealed class VehicleService
 {
     private readonly IVehicleRepository _vehicles;
 
-    public VehicleService(IVehicleRepository vehicles) => throw new NotImplementedException();
+    public VehicleService(IVehicleRepository vehicles) => _vehicles = vehicles;
 
-    public void Add(Vehicle vehicle) => throw new NotImplementedException();
+    public void Add(Vehicle vehicle) => _vehicles.Add(vehicle);
 
-    public void Remove(Vehicle vehicle) => throw new NotImplementedException();
+    public void Remove(Vehicle vehicle) => _vehicles.Remove(vehicle);
 
-    public void AddInsurance(Vehicle vehicle, Insurance insurance) => throw new NotImplementedException();
+    public void AddInsurance(Vehicle vehicle, Insurance insurance) => vehicle.AddInsurance(insurance);
 
-    public void RemoveInsurance(Vehicle vehicle, Insurance insurance) => throw new NotImplementedException();
+    public void RemoveInsurance(Vehicle vehicle, Insurance insurance) => vehicle.RemoveInsurance(insurance);
 
-    public void ScheduleEvent(Vehicle vehicle, VehicleEvent vehicleEvent) => throw new NotImplementedException();
+    public void ScheduleEvent(Vehicle vehicle, VehicleEvent vehicleEvent) => vehicle.AddEvent(vehicleEvent);
 
-    public void RemoveEvent(Vehicle vehicle, VehicleEvent vehicleEvent) => throw new NotImplementedException();
+    public void RemoveEvent(Vehicle vehicle, VehicleEvent vehicleEvent) => vehicle.RemoveEvent(vehicleEvent);
 }
 

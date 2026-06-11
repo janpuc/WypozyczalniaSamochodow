@@ -147,7 +147,6 @@ internal static class UiStrings
     public const string Vin = "VIN";
     public const string Year = "Rok";
     public const string Yes = "Tak";
-
     public const string TitleDetailsFor = "{0} – Szczegóły";
     public const string HintResetPassword = "Reset hasła";
     public const string EntityUser = "użytkownika";
@@ -177,4 +176,10 @@ internal static class UiStrings
     public const string EntityVehicle = "pojazd";
     public const string EntityInsurance = "ubezpieczenie";
     public const string VehicleHasActiveReservations = "Pojazd ma aktywne rezerwacje.";
+    public const string PressAnyKey = "Naciśnij dowolny klawisz, aby kontynuować...";
+    public const string ConfirmDelete = "Czy na pewno chcesz usunąć {0} „{1}”?";
+    public const string ConfirmCancel = "Czy na pewno chcesz anulować {0} „{1}”?";
+    public const string StatusAvailable = "Dostępny";
+    public const string MileageKm = "{0} km";
+
 }
