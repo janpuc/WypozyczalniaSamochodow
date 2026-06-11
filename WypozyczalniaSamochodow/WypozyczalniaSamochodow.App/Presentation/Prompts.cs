@@ -1,5 +1,6 @@
 ﻿using Spectre.Console;
 
+using WypozyczalniaSamochodow.App.Domain.Shared;
 using WypozyczalniaSamochodow.App.Domain.Users;
 using WypozyczalniaSamochodow.App.Presentation.Abstraction;
 using WypozyczalniaSamochodow.App.Presentation.UIConfig;
