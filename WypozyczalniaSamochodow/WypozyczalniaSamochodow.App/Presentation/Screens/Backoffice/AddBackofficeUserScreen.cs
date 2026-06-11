@@ -1,5 +1,7 @@
 ﻿using WypozyczalniaSamochodow.App.Application.Users;
+using WypozyczalniaSamochodow.App.Domain.Users;
 using WypozyczalniaSamochodow.App.Presentation.Abstraction;
+using WypozyczalniaSamochodow.App.Presentation.UIConfig;
 
 namespace WypozyczalniaSamochodow.App.Presentation.Screens.Backoffice;
 
@@ -11,11 +13,20 @@ internal sealed class AddBackofficeUserScreen : IScreen
 
     public AddBackofficeUserScreen(IUiRenderer ui, IPrompts prompts, UserAccountService users)
     {
-        throw new NotImplementedException();
+        _ui = ui; _prompts = prompts; _users = users;
     }
 
     public void Run()
     {
-        throw new NotImplementedException();
+        _ui.Clear();
+        _ui.Heading(UiStrings.TitleAddBackofficeUser);
+        _ui.Guard(() =>
+        {
+            var fullName = _prompts.PromptFullName();
+            var email = new Email(_prompts.PromptEmail());
+            var password = _prompts.PromptPassword();
+            _users.CreateBackofficeUser(fullName, email, password);
+            _ui.Success(UiStrings.UserAdded);
+        });
     }
 }
