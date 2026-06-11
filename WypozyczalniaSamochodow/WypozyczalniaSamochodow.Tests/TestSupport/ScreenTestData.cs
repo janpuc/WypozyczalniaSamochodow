@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 using WypozyczalniaSamochodow.App.Application.Auth;
+using WypozyczalniaSamochodow.App.Application.Fleet;
 using WypozyczalniaSamochodow.App.Application.Repositories;
 using WypozyczalniaSamochodow.App.Application.Reservations;
 using WypozyczalniaSamochodow.App.Application.Users;
@@ -79,4 +80,9 @@ internal static class ScreenTestData
 
     public static ReservationService Reservations()
         => new(new InMemoryReservationRepository(), new InMemoryVehicleRepository(), Clock);
+    public static VehicleService Vehicles(IVehicleRepository vehicles)
+    => new(vehicles);
+
+    public static VehicleService Vehicles()
+        => new(new InMemoryVehicleRepository());
 }
