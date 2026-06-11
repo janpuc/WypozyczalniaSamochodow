@@ -60,7 +60,9 @@ internal sealed class UserAccountService
 
     public void RemoveClient(Client client)
     {
-      throw new NotImplementedException();
+        if (_reservations.HasActiveOf(client))
+            throw new DomainException("Nie można usunąć klienta z aktywną rezerwacją.");
+        _clients.Remove(client);
     }
 
     public void RemoveBackofficeUser(Backoffice user) => _backoffice.Remove(user);
