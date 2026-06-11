@@ -44,10 +44,7 @@ internal sealed class ScriptedUiRenderer : IUiRenderer
         throw new NotImplementedException();
     }
 
-    public void Clear()
-    {
-        throw new NotImplementedException();
-    }
+    public void Clear() { }
 
     public string Colorize(string text, UiRole role)
     {
