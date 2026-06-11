@@ -113,5 +113,12 @@ internal static class UiStrings
     public const string Vehicle = "Pojazd";
     public const string Status = "Status";
     public const string LicenceValid = "Ważne";
+    public const string TitleReservationDetails = "Rezerwacja – Szczegóły";
+    public const string Amount = "Kwota";
+    public const string PaymentMethod = "Metoda płatności";
+    public const string PaymentDate = "Data płatności";
+    public const string HintCancelReservation = "Anuluj rezerwację";
+    public const string HintBack = "Wróć";
+    public const string EntityReservation = "rezerwację";
 
 }
