@@ -12,11 +12,22 @@ internal sealed class AddClientScreen : IScreen
 
     public AddClientScreen(IUiRenderer ui, IPrompts prompts, UserAccountService users)
     {
-        throw new NotImplementedException();
+        _ui = ui; _prompts = prompts; _users = users;
     }
 
     public void Run()
     {
-        throw new NotImplementedException();
+        _ui.Clear();
+        _ui.Heading(UiStrings.TitleAddClient);
+        _ui.Guard(() =>
+        {
+            var fullName = _prompts.PromptFullName();
+            var email = new Email(_prompts.PromptEmail());
+            var password = _prompts.PromptPassword();
+            DrivingLicence? lic = _prompts.PromptConfirm(UiStrings.ConfirmAddLicence)
+                ? _prompts.PromptDrivingLicence() : null;
+            _users.CreateClient(fullName, email, password, lic);
+            _ui.Success(UiStrings.ClientAdded);
+        });
     }
 }
