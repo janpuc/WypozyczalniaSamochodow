@@ -1,4 +1,4 @@
-# 🚗 WypozyczalniaSamochodow
+# WypozyczalniaSamochodow
 
 <p align="center">
   <a href="https://dotnet.microsoft.com/">
@@ -21,7 +21,7 @@
 
 ---
 
-## 📋 Spis treści
+## Spis treści
 
 - [Opis projektu](#opis-projektu)
 - [Funkcjonalności](#funkcjonalności)
@@ -35,7 +35,7 @@
 
 ---
 
-## 📝 Opis projektu
+## Opis projektu
 
 **WypozyczalniaSamochodow** to aplikacja demonstrująca zastosowanie nowoczesnych praktyk inżynierii oprogramowania w ekosystemie .NET. Projekt realizuje domenę wypożyczalni pojazdów, obejmującą zarządzanie flotą, procesy rezerwacji oraz logikę biznesową związaną z kalkulacją kosztów wynajmu.
 
@@ -44,7 +44,7 @@
 
 ---
 
-## ✨ Funkcjonalności
+## Funkcjonalności
 
 - **Zarządzanie pojazdami** – dodawanie, edycja i śledzenie dostępności samochodów w flocie
 - **Proces wypożyczania** – obsługa cyklu życia rezerwacji od utworzenia po zwrot pojazdu
@@ -54,7 +54,7 @@
 
 ---
 
-## 🏗️ Architektura
+## Architektura
 
 Projekt oparty jest na architekturze **warstwowej** (Layered Architecture), co zapewnia separację odpowiedzialności oraz izolację logiki biznesowej od szczegółów technicznych.
 
@@ -87,7 +87,7 @@ Projekt oparty jest na architekturze **warstwowej** (Layered Architecture), co z
 
 ---
 
-## 🛠️ Technologie
+## Technologie
 
 - **C#** – główny język programowania
 - **.NET** – platforma uruchomieniowa
@@ -99,7 +99,7 @@ Projekt oparty jest na architekturze **warstwowej** (Layered Architecture), co z
 
 ---
 
-## ⚙️ Wymagania wstępne
+## Wymagania wstępne
 
 Przed uruchomieniem upewnij się, że masz zainstalowane:
 
@@ -112,7 +112,7 @@ Przed uruchomieniem upewnij się, że masz zainstalowane:
 
 ---
 
-## 🚀 Uruchomienie
+## Uruchomienie
 
 ### 1. Klonowanie repozytorium
 
@@ -142,7 +142,7 @@ dotnet run --project WypozyczalniaSamochodow
 
 ---
 
-## 🧪 Testy
+## Testy
 
 Projekt zawiera rozbudowany zestaw testów jednostkowych w katalogu `WypozyczalniaSamochodow.Tests`.
 
@@ -176,7 +176,7 @@ WypozyczalniaSamochodow.Tests
 
 ---
 
-## 👥 Autorzy
+## Autorzy
 
 | Osoba | Wkład |
 |:---|:---|
@@ -186,7 +186,7 @@ WypozyczalniaSamochodow.Tests
 
 ---
 
-## 📐 Konwencje projektowe
+## Konwencje projektowe
 
 W projekcie przyjęto szereg ustandaryzowanych konwencji, które zapewniają spójność kodu wieloosobowego zespołu pracującego na różnych edytorach:
 
@@ -197,12 +197,6 @@ W projekcie przyjęto szereg ustandaryzowanych konwencji, które zapewniają sp�
 
 ---
 
-## 📄 Licencja
+## Licencja
 
 Projekt powstał w ramach prac zespołowych. Szczegóły licencji określone są w pliku `LICENSE` (jeśli obecny w repozytorium).
-
----
-
-<p align="center">
-  🚘 <i>Happy coding & safe driving!</i> 🚘
-</p>
